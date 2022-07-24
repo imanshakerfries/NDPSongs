@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+//import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -17,7 +17,7 @@ public class ShowListActivity extends AppCompatActivity {
     Button btn5star;
     ListView lvSongs;
     ArrayList<Song> al;
-    ArrayAdapter<Song> aa;
+    CustomAdapter ca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +28,15 @@ public class ShowListActivity extends AppCompatActivity {
         lvSongs = findViewById(R.id.lvSongs);
 
         al = new ArrayList<Song>();
-        aa = new ArrayAdapter<Song>(this,
-                android.R.layout.simple_list_item_1, al);
-        lvSongs.setAdapter(aa);
+//        aa = new ArrayAdapter<Song>(this,
+//                android.R.layout.simple_list_item_1, al);
+        ca = new CustomAdapter(this, R.layout.row, al);
+        lvSongs.setAdapter(ca);
 
         DBHelper dbh = new DBHelper(ShowListActivity.this);
         al.clear();
         al.addAll(dbh.getAllSongs());
-        aa.notifyDataSetChanged();
+        ca.notifyDataSetChanged();
 
         btn5star.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +45,7 @@ public class ShowListActivity extends AppCompatActivity {
                 al.clear();
                 int filterText = 5;
                 al.addAll(dbh.getStarSongs(filterText));
-                aa.notifyDataSetChanged();
+                ca.notifyDataSetChanged();
             }
         });
 
@@ -69,6 +70,6 @@ public class ShowListActivity extends AppCompatActivity {
         DBHelper dbh = new DBHelper(ShowListActivity.this);
         al.clear();
         al.addAll(dbh.getAllSongs());
-        aa.notifyDataSetChanged();
+        ca.notifyDataSetChanged();
     }
 }
